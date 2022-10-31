@@ -198,22 +198,26 @@ constructor(tipo, cliente, numero, agencia, saldo) {
   this.#saldo = saldo;
 }
 ```
+
 ```javascript
 retirarDeCuenta(valor) {
-  if (this.tipo == "Corriente") 
+  if (this.tipo == "Corriente")
     valor = valor * 1.05;
-  if (valor <= this.#saldo) 
+  if (valor <= this.#saldo)
     this.#saldo -= valor;
   return this.#saldo;
 }
 ```
-En este caso solo se aplicaria a cuentas Corrientes.
-```javascript
-const cuentaDeLeonardo = new Cuenta('Corriente', cliente, '1', '001', 0);
-const cuentaDeMaria = new Cuenta('Corriente', cliente2,'2','002', 0);
 
-const cuentaAhorroLeonardo = new Cuenta('Ahorro', cliente,'9985','001',0);
+En este caso solo se aplicaria a cuentas Corrientes.
+
+```javascript
+const cuentaDeLeonardo = new Cuenta("Corriente", cliente, "1", "001", 0);
+const cuentaDeMaria = new Cuenta("Corriente", cliente2, "2", "002", 0);
+
+const cuentaAhorroLeonardo = new Cuenta("Ahorro", cliente, "9985", "001", 0);
 ```
+
 ```javascript
 Cuenta { tipo: 'Corriente', numero: '1', agencia: '001' }
 150
@@ -224,18 +228,21 @@ Cuenta { tipo: 'Ahorro', numero: '9985', agencia: '001' }
 80
 Cuenta { tipo: 'Ahorro', numero: '9985', agencia: '001' }
 ```
-Ahora las cuentas de Ahorro tendran un 2% de comisión.  
+
+Ahora las cuentas de Ahorro tendran un 2% de comisión.
+
 ```javascript
 retirarDeCuenta(valor) {
-  if (this.tipo == "Corriente") 
+  if (this.tipo == "Corriente")
     valor = valor * 1.05;
-  else if (this.tipo == "Ahorro") 
+  else if (this.tipo == "Ahorro")
     valor = valor * 1.02;
-  if (valor <= this.#saldo) 
+  if (valor <= this.#saldo)
     this.#saldo -= valor;
   return this.#saldo;
 }
 ```
+
 ```javascript
 Cuenta { tipo: 'Corriente', numero: '1', agencia: '001' }
 150
@@ -246,4 +253,116 @@ Cuenta { tipo: 'Ahorro', numero: '9985', agencia: '001' }
 77.6
 Cuenta { tipo: 'Ahorro', numero: '9985', agencia: '001' }
 ```
-# 2da Opción
+
+# 2da Opción: Nuevo esquema para la clase
+
+Para mejorar el comportamiento.
+
+# Herencia
+
+Desde un punto PADRE a un punto HIJO se transfieran atributos y comportamientos.  
+Una clase puede tomar toda la funcionalidad de otra clase a partir de que se defina como HIJA, se extiende.  
+Los get y set los copiamos a la clase Cuenta.  
+
+CuentaCorriente.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaCorriente extends Cuenta {
+  static cantidadCuentas = 0;
+
+  constructor(cliente, numero, agencia) {
+    CuentaCorriente.cantidadCuentas++;
+  }
+}
+```
+
+CuentaAhorro.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaAhorro extends Cuenta {}
+```
+
+Tenemos una cuenta BASE : Cuenta.js
+
+```javascript
+export class Cuenta {
+  #cliente;
+  #saldo;
+
+  constructor(cliente, numero, agencia, saldo) {
+    this.numero = numero;
+    this.agencia = agencia;
+    this.#cliente = cliente;
+    this.#saldo = saldo;
+  }
+
+  set cliente(valor) {
+    if (valor instanceof Cliente) this.#cliente = valor;
+  }
+
+  get cliente() {
+    return this.#cliente;
+  }
+
+  depositoEnCuenta(valor) {
+    if (valor > 0) this.#saldo += valor;
+    return this.#saldo;
+  }
+
+  retirarDeCuenta(valor) {
+    if (valor <= this.#saldo) this.#saldo -= valor;
+    return this.#saldo;
+  }
+
+  verSaldo() {
+    return this.#saldo;
+  }
+
+  transferirParaCuenta(valor, cuentaDestino) {
+    this.retirarDeCuenta(valor);
+    cuentaDestino.depositoEnCuenta(valor);
+    valor = 200;
+    valor = valor * 1000;
+  }
+}
+```
+
+# super
+
+Tengo que decirle que construya el constructor de su PADRE.  
+LLamo al constructor PADRE mediante la palabra reservada **super**.  
+CuentaCorriente.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaCorriente extends Cuenta {
+  static cantidadCuentas = 0;
+
+  constructor(cliente, numero, agencia) {
+    super(cliente, numero, agencia, 0);
+    CuentaCorriente.cantidadCuentas++;
+  }
+}
+```
+De esta forma la clase CuentaCorriente hereda las propiedades y métodos de la clase Cuenta.  
+
+CuentaAhorro.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaAhorro extends Cuenta {
+  constructor(cliente, numero, agencia, saldo) {
+    super(cliente, numero, agencia, saldo);
+  }
+}
+```
+
+Se debe tener una clase BASE y se hace HERENCIA.  
+De esta forma tenemos código extensible.
+# Accediendo y Sobrescribiendo la clase PADRE : Cuenta.js  
