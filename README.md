@@ -366,3 +366,35 @@ export class CuentaAhorro extends Cuenta {
 Se debe tener una clase BASE y se hace HERENCIA.  
 De esta forma tenemos código extensible.
 # Accediendo y Sobrescribiendo la clase PADRE : Cuenta.js  
+```javascript
+prueba() {
+    console.log('Método PADRE')
+}
+```
+Quiero llamar al metodo prueba de la clase PADRE   
+CuentaCorriente.js  
+```javascript
+prueba() {
+  super.prueba();
+  console.log('Método HIJO');
+}
+```
+En index.js  
+```javascript
+cuentaDeLeonardo.prueba();
+```
+```javascript
+Método PADRE
+Método HIJO
+```
+Si quiero ejecutar solo para el HIJO quito super  
+En CuentaCorriente.js
+```javascript
+prueba() {
+    console.log('Método HIJO');
+}
+```
+```javascript
+Método HIJO
+```
+Estoy sobrescribiendo el método prueba. Tiene el mismo nombre del método PADRE. Puedo o no usar la sobrescritura mediante la palabra super. Tambien puedo convinarla, llamar al padre y escribir código en el HIJO. 
