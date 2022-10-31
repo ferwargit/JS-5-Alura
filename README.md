@@ -262,7 +262,7 @@ Para mejorar el comportamiento.
 
 Desde un punto PADRE a un punto HIJO se transfieran atributos y comportamientos.  
 Una clase puede tomar toda la funcionalidad de otra clase a partir de que se defina como HIJA, se extiende.  
-Los get y set los copiamos a la clase Cuenta.  
+Los get y set los copiamos a la clase Cuenta.
 
 CuentaCorriente.js
 
@@ -349,7 +349,8 @@ export class CuentaCorriente extends Cuenta {
   }
 }
 ```
-De esta forma la clase CuentaCorriente hereda las propiedades y métodos de la clase Cuenta.  
+
+De esta forma la clase CuentaCorriente hereda las propiedades y métodos de la clase Cuenta.
 
 CuentaAhorro.js
 
@@ -365,36 +366,147 @@ export class CuentaAhorro extends Cuenta {
 
 Se debe tener una clase BASE y se hace HERENCIA.  
 De esta forma tenemos código extensible.
-# Accediendo y Sobrescribiendo la clase PADRE : Cuenta.js  
+
+# Accediendo y Sobrescribiendo la clase PADRE : Cuenta.js
+
 ```javascript
 prueba() {
     console.log('Método PADRE')
 }
 ```
-Quiero llamar al metodo prueba de la clase PADRE   
-CuentaCorriente.js  
+
+Quiero llamar al metodo prueba de la clase PADRE  
+CuentaCorriente.js
+
 ```javascript
 prueba() {
   super.prueba();
   console.log('Método HIJO');
 }
 ```
-En index.js  
+
+En index.js
+
 ```javascript
 cuentaDeLeonardo.prueba();
 ```
+
 ```javascript
 Método PADRE
 Método HIJO
 ```
+
 Si quiero ejecutar solo para el HIJO quito super  
 En CuentaCorriente.js
+
 ```javascript
 prueba() {
     console.log('Método HIJO');
 }
 ```
+
+```javascript
+cuentaDeLeonardo.prueba();
+```
+
 ```javascript
 Método HIJO
 ```
-Estoy sobrescribiendo el método prueba. Tiene el mismo nombre del método PADRE. Puedo o no usar la sobrescritura mediante la palabra super. Tambien puedo convinarla, llamar al padre y escribir código en el HIJO. 
+
+Estoy sobrescribiendo el método prueba. Tiene el mismo nombre del método PADRE. Puedo o no usar la sobrescritura mediante la palabra super. Tambien puedo convinarla, llamar al padre y escribir código en el HIJO.
+La herencia es posible definirla en múltiples niveles. Debemos tener cuidado pues podemos llegar a generar un árbol de herencia complejo que al final nos puede generar problemas de mantenimiento.  
+CuentAhorro.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaAhorro extends Cuenta {
+  constructor(cliente, numero, agencia, saldo) {
+    super(cliente, numero, agencia, saldo);
+  }
+
+  retirarDeCuenta(valor) {
+    valor = valor * 1.02;
+
+    super.retirarDeCuenta(valor);
+  }
+}
+```
+
+CueentaAhorro.js
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaAhorro extends Cuenta {
+  constructor(cliente, numero, agencia, saldo) {
+    super(cliente, numero, agencia, saldo);
+  }
+
+  retirarDeCuenta(valor) {
+    valor = valor * 1.02;
+
+    super.retirarDeCuenta(valor);
+  }
+}
+```
+
+# Mejoras del código
+
+Cuenta.js
+
+```javascript
+retirarDeCuenta(valor, comision) {
+  valor = valor * (1+comision/100);
+  if (valor <= this.#saldo)
+    this.#saldo -= valor;
+  return this.#saldo;
+}
+```
+
+CuentaCorriente.js
+
+```javascript
+retirarDeCuenta(valor) {
+  super.retirarDeCuenta(valor,5);
+}
+```
+
+CuentaAhorro.js
+
+```javascript
+retirarDeCuenta(valor) {
+  super.retirarDeCuenta(valor,2);
+}
+```
+
+De esta forma definimos que el metodo es privado.
+Esto nos permite tener en cuenta un retiro sin comisión.
+
+```javascript
+retirarDeCuenta(valor) {
+  _retirarDeCuenta(valor,0);
+}
+  
+_retirarDeCuenta(valor, comision) {
+  valor = valor * (1+comision/100);
+  if (valor <= this.#saldo) 
+    this.#saldo -= valor;
+  return this.#saldo;
+}
+```
+CuentaCorriente.js
+```javascript
+retirarDeCuenta(valor) {
+  super._retirarDeCuenta(valor,5);
+}
+```
+CuentaAhorro.js
+```javascript
+retirarDeCuenta(valor) {
+  super._retirarDeCuenta(valor,2);
+}
+```
+# Herencia en programación orientada a objetos  
+https://ljcl79.medium.com/herencia-en-programaci%C3%B3n-orientada-a-objetos-370cf3f97402
+

@@ -23,7 +23,13 @@ export class Cuenta {
   }
 
   retirarDeCuenta(valor) {
-    if (valor <= this.#saldo) this.#saldo -= valor;
+    _retirarDeCuenta(valor,0);
+  }
+  
+  _retirarDeCuenta(valor, comision) {
+    valor = valor * (1+comision/100);
+    if (valor <= this.#saldo) 
+      this.#saldo -= valor;
     return this.#saldo;
   }
 
