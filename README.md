@@ -54,6 +54,7 @@ export class CuentaAhorro {
 De esta manera tengo definido mis 4 atributos: 2 privados y 2 públicos.
 # Métodos
 La CuentaAhorro va transferir, retirar y depositar.
+Código similar al de CuentaCorriente.js.
 ```javascript
 export class CuentaAhorro {
     #cliente;
@@ -102,4 +103,47 @@ CuentaCorriente { numero: '1', agencia: '001' }
 CuentaAhorro { numero: '9985', agencia: '001' }
 ```
 Ya tenemos la clase disponible para trabajar.  
-Podemos ver que no estamos pudiendo acceder a nuestros atributos privados.
+Podemos ver que no estamos pudiendo acceder a nuestros atributos privados.  
+# Analizando código repetido
+Tenemos tanto en CuentaCorriente.js y CuentaAhorro.js código que se repite.  
+Al tener código duplicado, el trabajo de agregar o mantener el código se duplica. 
+# ¿Que deberiamos hacer?  
+Unificar el código en una sola clase llamada Cuenta.js
+```jsx
+export class Cuenta {
+    #cliente;
+    #saldo;
+
+    constructor(cliente, numero, agencia, saldo) {
+        this.numero = numero;
+        this.agencia = agencia;
+        this.#cliente = cliente;
+        this.#saldo = saldo;
+    }
+
+    depositoEnCuenta(valor) {
+        if (valor > 0)
+            this.#saldo += valor;
+        return this.#saldo;
+    }
+
+    retirarDeCuenta(valor) {
+        if (valor <= this.#saldo)
+            this.#saldo -= valor;
+        return this.#saldo;
+    }
+
+    verSaldo() {
+        return this.#saldo;
+    }
+
+    transferirParaCuenta(valor,cuentaDestino) {
+        this.retirarDeCuenta(valor);
+        cuentaDestino.depositoEnCuenta(valor);
+        valor = 200;
+        valor = valor*1000;
+    }
+}
+```  
+Ahora tenemos una sola clase. La clase **Cuenta**.
+Hicimos una generalización del proceso pero perdimos funcionalidad.
