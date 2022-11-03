@@ -487,26 +487,102 @@ Esto nos permite tener en cuenta un retiro sin comisión.
 retirarDeCuenta(valor) {
   _retirarDeCuenta(valor,0);
 }
-  
+
 _retirarDeCuenta(valor, comision) {
   valor = valor * (1+comision/100);
-  if (valor <= this.#saldo) 
+  if (valor <= this.#saldo)
     this.#saldo -= valor;
   return this.#saldo;
 }
 ```
+
 CuentaCorriente.js
+
 ```javascript
 retirarDeCuenta(valor) {
   super._retirarDeCuenta(valor,5);
 }
 ```
+
 CuentaAhorro.js
+
 ```javascript
 retirarDeCuenta(valor) {
   super._retirarDeCuenta(valor,2);
 }
 ```
-# Herencia en programación orientada a objetos  
+
+# Herencia en programación orientada a objetos
+
 https://ljcl79.medium.com/herencia-en-programaci%C3%B3n-orientada-a-objetos-370cf3f97402
 
+# Clases abstarctas
+
+Son aquellas que solo se deben extender.
+No se puede acceder a ella.
+La clase Cuenta tiene yoda la funcionalidad básica.
+Pero nadie debería acceder a la clase Cuenta directamente.
+Esa clase abstracta es aquella que no se puede instanciar.
+No se puede hacer new, solo se puede hacer extends.
+Vamos a evitar que se creen objetos de la clase Cuenta.
+La clase Cuenta encapsula el procedimiento principal de nuestro sistema y que no queremos que sea accedido desde afuera.
+
+```javascript
+constructor(cliente, numero, agencia, saldo) {
+    if(this.constructor == Cuenta) {
+      throw new Error('No se debe instanciar objetos de la clase Cuenta');
+    }
+    this.numero = numero;
+    this.agencia = agencia;
+    this.#cliente = cliente;
+    this.#saldo = saldo;
+  }
+```
+
+Al desarrollar un sistema las clases bases (clases abstractas) nos ayudan a delimitar el modelo de negocio a implementar y las clases especializadas nos dan información más detallada. Es importante definir las clases que sean necesarias para que podamos tener el modelo organizado de manera correcta.  
+Evitamos que algún programador quiera hacer algún tipo de especialización de la clase base, por eso la clase Cuenta es abstracta. De esa manera protegemos la clase Cuenta de funcionalidad principal. Esa clase abstracta solo se puede heredar y sobre esa clase heredada hacer las operaciones y de esa manera el código quede protegido.
+
+# Creamos una nueva clase CuentaNomina.js
+
+```javascript
+import { Cuenta } from "./Cuenta";
+
+export class CuentaNomina extends Cuenta {}
+```
+
+Aquí tenemos CuentaNomina con toda la funcionalidad de Cuenta.
+
+# Método abstaracto
+
+Tiene la definición pero no tiene la implementación.  
+Esta hecho el esqueleto, esta hecho el marco. No hace nada.
+
+```javascript
+retirarDeCuenta(valor) {
+  // Método abstracto
+    throw new Error('Debe implementar el método retirarDeCuenta en su clase');
+}
+```
+
+De esta manera el método es abstracto y se proteje.
+Hacemos la implementación en mi clase CuentaNomina.
+Ahora la comision es 1%
+
+```javascript
+import { Cuenta } from "./Cuenta.js";
+
+export class CuentaNomina extends Cuenta {
+  constructor(cliente, numero, agencia, saldo) {
+    super(cliente, numero, agencia, saldo);
+  }
+
+  retirarDeCuenta(valor) {
+    super._retirarDeCuenta(valor, 1);
+  }
+}
+```
+Los métodos abstractos deben ser sobreescritos por las clases hijas.  
+Las clases abstractas son diseñadas de forma tal que sólo sean extensibles o heredables por otras clases.  
+Nos ayudan a crear el esqueleto de funcionamiento de clases que comparten el funcionamiento, de forma que el código sea reutilizable lo más posible.  
+# Las clases abstractas. ¿Qué son y para qué sirven?  
+https://ljcl79.medium.com/las-clases-abstractas-qué-son-y-para-qué-sirven-8328b92db680  
