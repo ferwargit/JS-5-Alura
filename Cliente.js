@@ -1,22 +1,25 @@
-export class Cliente
-{
-    nombreCliente;
-    dniCliente;
-    rutCliente;
-    #clave;
+export class Cliente {
+  nombreCliente;
+  dniCliente;
+  rutCliente;
+  #clave;
 
-    constructor(nombreCliente, dniCliente, rutCliente) {
-        this.nombreCliente = nombreCliente;
-        this.dniCliente = dniCliente;
-        this.rutCliente = rutCliente;
-        this.#clave = '';
-    }
+  constructor(nombreCliente, dniCliente, rutCliente) {
+    this.nombreCliente = nombreCliente;
+    this.dniCliente = dniCliente;
+    this.rutCliente = rutCliente;
+    this.#clave = "";
+  }
 
-    asignarClave(clave) {
-        this.#clave = clave;
-      }
-    
-      get clave() {
-        return this.#clave;
-      }
+  asignarClave(clave) {
+    this.#clave = clave;
+  }
+
+  // get clave() {
+  //   return this.#clave;
+  // }
+
+  autenticable(clave) {
+    return false;
+  }
 }

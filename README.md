@@ -769,3 +769,19 @@ export class Empleado {
   }
 }
 ```
+# Interfaces
+Es el punto donde existe comunicación.
+Tenemos la interface como atributo y la iterface como método.
+El sistema de Autenticación esta implementado en el método login.
+Tanto Cliente como Empleado tienen esa interface que es el atributo llamado #clave en donde el Sistema de Autenticación accede a el.
+```javascript
+export class SistemaAutenticacion {
+  static login(usuario,clave) {
+    return usuario.autenticable(clave);
+  }
+}
+```
+La interface cambio de ser un atributo a un método.
+A nivel de método es mas seguro el encapsulamiento.
+La interfaz me permite tener diferentes implementaciones.
+Por defecto Javascript califica como undefined a cualquier propiedad de un objeto a la que intentemos acceder en caso de que ella no exista.

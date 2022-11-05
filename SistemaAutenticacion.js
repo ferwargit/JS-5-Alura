@@ -3,8 +3,9 @@ export class SistemaAutenticacion {
     // if(empleado.clave == clave)
     //   return true;
     // return false;
-    console.log(usuario.clave);
-    console.log(clave);
-    return usuario.clave == clave;
+    // console.log(usuario.clave);
+    // console.log(clave);
+    return usuario.autenticable(clave);
+    // return usuario.clave == clave;
   }
 }

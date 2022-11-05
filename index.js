@@ -10,22 +10,32 @@ import { Director } from "./Empleados/Director.js";
 
 import { SistemaAutenticacion } from "./SistemaAutenticacion.js";
 
-const cliente = new Cliente("Leonardo", "13804050", "123224");
-cliente.asignarClave('01111');
-console.log(SistemaAutenticacion.login(cliente,'1111'));
+// const cliente = new Cliente("Leonardo", "13804050", "123224");
+// cliente.asignarClave('01111');
+// console.log(SistemaAutenticacion.login(cliente,'1111'));
 // const cliente2 = new Cliente("María", "16979808", "8989");
 
 const empleado = new Empleado('Juan Perez', '1234343', 10000);
+empleado.asignarClave('12345');
+console.log(SistemaAutenticacion.login(empleado,'123456'));
+
 const gerente = new Gerente('Pedro Rivas', '232344', 12000);
-const director = new Director('Elena Moreno', '232323', 15000);
+gerente.asignarClave('6556');
+console.log(SistemaAutenticacion.login(gerente,'6556'));
+
+// const director = new Director('Elena Moreno', '232323', 15000);
+
+const cliente = new Cliente('Leonardo','13804050','123224');
+cliente.asignarClave('01111');
+console.log(SistemaAutenticacion.login(cliente,'01111'));
 
 // console.log(empleado.verBonificacion());
 // console.log(gerente.verBonificacion());
 // console.log(director.verBonificacion());
 
-empleado.asignarClave('12345');
+// empleado.asignarClave('12345');
 
-console.log(SistemaAutenticacion.login(empleado,'12345'));
+// console.log(SistemaAutenticacion.login(empleado,'12345'));
 
 // const cuentaDeLeonardo = new CuentaCorriente(cliente, "1", "001");
 // const cuentaDeMaria = new CuentaCorriente(cliente2, "2", "002");
