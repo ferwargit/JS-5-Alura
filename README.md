@@ -586,3 +586,93 @@ Las clases abstractas son diseñadas de forma tal que sólo sean extensibles o h
 Nos ayudan a crear el esqueleto de funcionamiento de clases que comparten el funcionamiento, de forma que el código sea reutilizable lo más posible.  
 # Las clases abstractas. ¿Qué son y para qué sirven?  
 https://ljcl79.medium.com/las-clases-abstractas-qué-son-y-para-qué-sirven-8328b92db680  
+
+# Ordenamos el código en carpetas
+Cuentas  
+Empleados  
+Vamos a crear una clase base de empleados y vamos a crear 2 especializaciones de empleados (Gerente y Director)
+# Clase Empleado
+```javascript
+export class Empleado {
+  #nombre
+  #dni
+
+  constructor(nombre, dni) {
+    this.#nombre = nombre;
+    this.#dni = dni;
+  }
+}
+```
+# Clase Gerente
+```javascript
+import { Empleado } from "./Empleado.js";
+
+export class Gerente extends Empleado{
+  constructor(nombre, dni) {
+    super(nombre, dni);
+  }
+}
+```
+# Clase Director
+```javascript
+import { Empleado } from "./Empleado.js";
+
+export class Director extends Empleado{
+  constructor(nombre, dni) {
+    super(nombre, dni);
+  }
+}
+```
+# Clase Empleado
+```javascript
+export class Empleado {
+  #nombre
+  #dni
+  #salario
+
+  constructor(nombre, dni, salario) {
+    this.#nombre = nombre;
+    this.#dni = dni;
+    this.#salario = salario;
+  }
+
+  verBonificacion() {
+    return this.#salario;
+  }
+
+  _verBonificacion(bono) {
+    return this.#salario + this.#salario*bono/100;
+  }
+}
+```
+# Clase Gerente
+```javascript
+import { Empleado } from "./Empleado.js";
+
+export class Gerente extends Empleado{
+  constructor(nombre, dni, salario) {
+    super(nombre, dni, salario);
+  }
+
+  verBonificacion() {
+    const bono = 5;
+    return super._verBonificacion(bono);
+  }
+}
+```
+# Clase Director
+```javascript
+import { Empleado } from "./Empleado.js";
+
+export class Director extends Empleado{
+  constructor(nombre, dni, salario) {
+    super(nombre, dni, salario);
+  }
+
+  verBonificacion() {
+    const bono = 10;
+    return super._verBonificacion(bono);
+  }
+}
+```
+# Polimorfismo
