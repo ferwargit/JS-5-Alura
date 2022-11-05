@@ -581,21 +581,27 @@ export class CuentaNomina extends Cuenta {
   }
 }
 ```
+
 Los métodos abstractos deben ser sobreescritos por las clases hijas.  
 Las clases abstractas son diseñadas de forma tal que sólo sean extensibles o heredables por otras clases.  
-Nos ayudan a crear el esqueleto de funcionamiento de clases que comparten el funcionamiento, de forma que el código sea reutilizable lo más posible.  
-# Las clases abstractas. ¿Qué son y para qué sirven?  
-https://ljcl79.medium.com/las-clases-abstractas-qué-son-y-para-qué-sirven-8328b92db680  
+Nos ayudan a crear el esqueleto de funcionamiento de clases que comparten el funcionamiento, de forma que el código sea reutilizable lo más posible.
+
+# Las clases abstractas. ¿Qué son y para qué sirven?
+
+https://ljcl79.medium.com/las-clases-abstractas-qué-son-y-para-qué-sirven-8328b92db680
 
 # Ordenamos el código en carpetas
+
 Cuentas  
 Empleados  
 Vamos a crear una clase base de empleados y vamos a crear 2 especializaciones de empleados (Gerente y Director)
+
 # Clase Empleado
+
 ```javascript
 export class Empleado {
-  #nombre
-  #dni
+  #nombre;
+  #dni;
 
   constructor(nombre, dni) {
     this.#nombre = nombre;
@@ -603,32 +609,38 @@ export class Empleado {
   }
 }
 ```
+
 # Clase Gerente
+
 ```javascript
 import { Empleado } from "./Empleado.js";
 
-export class Gerente extends Empleado{
+export class Gerente extends Empleado {
   constructor(nombre, dni) {
     super(nombre, dni);
   }
 }
 ```
+
 # Clase Director
+
 ```javascript
 import { Empleado } from "./Empleado.js";
 
-export class Director extends Empleado{
+export class Director extends Empleado {
   constructor(nombre, dni) {
     super(nombre, dni);
   }
 }
 ```
+
 # Clase Empleado
+
 ```javascript
 export class Empleado {
-  #nombre
-  #dni
-  #salario
+  #nombre;
+  #dni;
+  #salario;
 
   constructor(nombre, dni, salario) {
     this.#nombre = nombre;
@@ -641,15 +653,17 @@ export class Empleado {
   }
 
   _verBonificacion(bono) {
-    return this.#salario + this.#salario*bono/100;
+    return this.#salario + (this.#salario * bono) / 100;
   }
 }
 ```
+
 # Clase Gerente
+
 ```javascript
 import { Empleado } from "./Empleado.js";
 
-export class Gerente extends Empleado{
+export class Gerente extends Empleado {
   constructor(nombre, dni, salario) {
     super(nombre, dni, salario);
   }
@@ -660,11 +674,13 @@ export class Gerente extends Empleado{
   }
 }
 ```
+
 # Clase Director
+
 ```javascript
 import { Empleado } from "./Empleado.js";
 
-export class Director extends Empleado{
+export class Director extends Empleado {
   constructor(nombre, dni, salario) {
     super(nombre, dni, salario);
   }
@@ -675,4 +691,81 @@ export class Director extends Empleado{
   }
 }
 ```
+
 # Polimorfismo
+
+Cuando tenemos un método, una función o un atributo con el mismo nombre en diferentes clases, solo que estas clases no estan relacionadas entre si en un esquema de herencia. Son clases que se pueden gestionar de manera individual y nos permite ejecutar ese método de diferentes formas. El concepto de polimorfismo es la gestion de métodos, funciones o atributos de diferentes formas.
+Nos piden la autenticación de los empleados, el cliente quiere una gestión de claves.
+
+# Clase SistemaAutenticacion
+
+```javascript
+export class SistemaAutenticacion {
+  static login(usuario, clave) {
+    // if(empleado.clave == clave)
+    //   return true;
+    // return false;
+    console.log(usuario.clave);
+    console.log(clave);
+    return usuario.clave == clave;
+  }
+}
+```
+
+# Clase Cliente
+
+```javascript
+export class Cliente {
+  nombreCliente;
+  dniCliente;
+  rutCliente;
+  #clave;
+
+  constructor(nombreCliente, dniCliente, rutCliente) {
+    this.nombreCliente = nombreCliente;
+    this.dniCliente = dniCliente;
+    this.rutCliente = rutCliente;
+    this.#clave = "";
+  }
+
+  asignarClave(clave) {
+    this.#clave = clave;
+  }
+
+  get clave() {
+    return this.#clave;
+  }
+}
+```
+# Clase Empleado
+```javascript
+export class Empleado {
+  #nombre
+  #dni
+  #salario
+  #clave
+
+  constructor(nombre, dni, salario) {
+    this.#nombre = nombre;
+    this.#dni = dni;
+    this.#salario = salario;
+    this.#clave = '';
+  }
+
+  asignarClave(clave) {
+    this.#clave = clave;
+  }
+
+  get clave() {
+    return this.#clave;
+  }
+
+  verBonificacion() {
+    return this.#salario;
+  }
+
+  _verBonificacion(bono) {
+    return this.#salario + this.#salario*bono/100;
+  }
+}
+```
