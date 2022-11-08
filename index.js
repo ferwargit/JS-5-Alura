@@ -16,7 +16,7 @@ import { SistemaAutenticacion } from "./SistemaAutenticacion.js";
 // const cliente2 = new Cliente("María", "16979808", "8989");
 
 const empleado = new Empleado('Juan Perez', '1234343', 10000);
-empleado.asignarClave('12345');
+empleado.asignarClave('123456');
 console.log(SistemaAutenticacion.login(empleado,'123456'));
 
 const gerente = new Gerente('Pedro Rivas', '232344', 12000);

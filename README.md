@@ -785,3 +785,8 @@ La interface cambio de ser un atributo a un método.
 A nivel de método es mas seguro el encapsulamiento.
 La interfaz me permite tener diferentes implementaciones.
 Por defecto Javascript califica como undefined a cualquier propiedad de un objeto a la que intentemos acceder en caso de que ella no exista.
+La comunicación se realiza a través de interfaces y no estamos limitados a los tipos de datos.
+
+# Repositorio
+https://github.com/alura-es-cursos/1785-js-herencia-polimorfismo/tree/ProyectoInicial
+
